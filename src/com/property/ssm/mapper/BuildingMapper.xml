@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.BuildingMapper" >
+	<resultMap id="BaseResultMap" type="com.property.ssm.po.Building" >
+	  <id column="bid" property="bid" jdbcType="INTEGER" />
+	  <result column="bName" property="bName" jdbcType="VARCHAR" />
+	  <result column="floorNum" property="floorNum" jdbcType="INTEGER" />
+	  <result column="houseNum" property="houseNum" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+	  bid, bName,floorNum,houseNum
+	</sql>
+	
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from building
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from building
+	    where bid = #{bid,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from building
+	    where bName = #{bName}
+    </select>
+  
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+	    delete from building
+	    where bid = #{bid,jdbcType=INTEGER}
+    </delete>
+	
+	<insert id="insert" parameterType="com.property.ssm.po.Building">
+		insert into building(bid,bName,floorNum,houseNum) values(#{bid},#{bName},#{floorNum},#{houseNum})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.property.ssm.po.Building" >
+    insert into building
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="bName != null" >
+        bName,
+      </if>
+      <if test="floorNum != null" >
+        floorNum,
+      </if>
+      <if test="houseNum != null" >
+        houseNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bid != null" >
+        #{bid},
+      </if>
+      <if test="bName != null" >
+        #{bName},
+      </if>
+      <if test="floorNum != null" >
+        #{floorNum},
+      </if>
+      <if test="houseNum != null" >
+        #{houseNum},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Building" >
+    update building
+    <set >
+      <if test="bid != null " >
+        bid = #{bid},
+      </if>
+      <if test="bName != null " >
+        bName = #{bName},
+      </if>
+      <if test="floorNum != null" >
+        floorNum = #{floorNum},
+      </if>
+      <if test="houseNum != null" >
+        houseNum = #{houseNum},
+      </if>
+    </set>
+    where bid = #{bid}
+  </update>
+</mapper>

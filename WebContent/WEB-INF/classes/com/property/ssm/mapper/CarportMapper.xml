@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.CarportMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Carport" >
+    <id column="carport_id" property="carportId" jdbcType="INTEGER" />
+    <result column="carport_position" property="carportPosition" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="startdate" property="startdate" jdbcType="DATE" />
+    <result column="stopdate" property="stopdate" jdbcType="DATE" />
+    <result column="area" property="area" jdbcType="DOUBLE" />
+    <result column="carport_fee" property="carportFee" jdbcType="DOUBLE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    carport_id, carport_position, owner_id, startdate, stopdate, area, carport_fee, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from carport
+    where carport_id = #{carportId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from carport
+    where carport_id = #{carportId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Carport" >
+    insert into carport (carport_id, carport_position, owner_id, 
+      startdate, stopdate, area, 
+      carport_fee, remark)
+    values (#{carportId,jdbcType=INTEGER}, #{carportPosition,jdbcType=VARCHAR}, #{ownerId,jdbcType=INTEGER}, 
+      #{startdate,jdbcType=DATE}, #{stopdate,jdbcType=DATE}, #{area,jdbcType=DOUBLE}, 
+      #{carportFee,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Carport" >
+    insert into carport
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carportId != null" >
+        carport_id,
+      </if>
+      <if test="carportPosition != null" >
+        carport_position,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+      <if test="stopdate != null" >
+        stopdate,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="carportFee != null" >
+        carport_fee,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="carportId != null" >
+        #{carportId,jdbcType=INTEGER},
+      </if>
+      <if test="carportPosition != null" >
+        #{carportPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="stopdate != null" >
+        #{stopdate,jdbcType=DATE},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=DOUBLE},
+      </if>
+      <if test="carportFee != null" >
+        #{carportFee,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Carport" >
+    update carport
+    <set >
+      <if test="carportPosition != null" >
+        carport_position = #{carportPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="stopdate != null" >
+        stopdate = #{stopdate,jdbcType=DATE},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=DOUBLE},
+      </if>
+      <if test="carportFee != null" >
+        carport_fee = #{carportFee,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where carport_id = #{carportId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Carport" >
+    update carport
+    set carport_position = #{carportPosition,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      startdate = #{startdate,jdbcType=DATE},
+      stopdate = #{stopdate,jdbcType=DATE},
+      area = #{area,jdbcType=DOUBLE},
+      carport_fee = #{carportFee,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where carport_id = #{carportId,jdbcType=INTEGER}
+  </update>
+</mapper>

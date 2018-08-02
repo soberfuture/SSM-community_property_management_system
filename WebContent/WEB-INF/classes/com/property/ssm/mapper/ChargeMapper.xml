@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.ChargeMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Charge" >
+    <id column="charge_id" property="chargeId" jdbcType="INTEGER" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="project" property="project" jdbcType="VARCHAR" />
+    <result column="way" property="way" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="used" property="used" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="delivered" property="delivered" jdbcType="DOUBLE" />
+    <result column="owe" property="owe" jdbcType="DOUBLE" />
+    <result column="indate" property="indate" jdbcType="DATE" />
+    <result column="paydate" property="paydate" jdbcType="DATE" />
+    <result column="transactor" property="transactor" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    charge_id, owner_id, position, project, way, unit, used, price, total, delivered, 
+    owe, indate, paydate, transactor, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from charge
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Charge" >
+    insert into charge (charge_id, owner_id, position, 
+      project, way, unit, 
+      used, price, total, delivered, 
+      owe, indate, paydate, transactor, 
+      remark)
+    values (#{chargeId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, 
+      #{project,jdbcType=VARCHAR}, #{way,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{used,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{total,jdbcType=DOUBLE}, #{delivered,jdbcType=DOUBLE}, 
+      #{owe,jdbcType=DOUBLE}, #{indate,jdbcType=DATE}, #{paydate,jdbcType=DATE}, #{transactor,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Charge" >
+    insert into charge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chargeId != null" >
+        charge_id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="project != null" >
+        project,
+      </if>
+      <if test="way != null" >
+        way,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="used != null" >
+        used,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="delivered != null" >
+        delivered,
+      </if>
+      <if test="owe != null" >
+        owe,
+      </if>
+      <if test="indate != null" >
+        indate,
+      </if>
+      <if test="paydate != null" >
+        paydate,
+      </if>
+      <if test="transactor != null" >
+        transactor,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chargeId != null" >
+        #{chargeId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="project != null" >
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null" >
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="used != null" >
+        #{used,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="delivered != null" >
+        #{delivered,jdbcType=DOUBLE},
+      </if>
+      <if test="owe != null" >
+        #{owe,jdbcType=DOUBLE},
+      </if>
+      <if test="indate != null" >
+        #{indate,jdbcType=DATE},
+      </if>
+      <if test="paydate != null" >
+        #{paydate,jdbcType=DATE},
+      </if>
+      <if test="transactor != null" >
+        #{transactor,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Charge" >
+    update charge
+    <set >
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="project != null" >
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null" >
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="used != null" >
+        used = #{used,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="delivered != null" >
+        delivered = #{delivered,jdbcType=DOUBLE},
+      </if>
+      <if test="owe != null" >
+        owe = #{owe,jdbcType=DOUBLE},
+      </if>
+      <if test="indate != null" >
+        indate = #{indate,jdbcType=DATE},
+      </if>
+      <if test="paydate != null" >
+        paydate = #{paydate,jdbcType=DATE},
+      </if>
+      <if test="transactor != null" >
+        transactor = #{transactor,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Charge" >
+    update charge
+    set owner_id = #{ownerId,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      project = #{project,jdbcType=VARCHAR},
+      way = #{way,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      used = #{used,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
+      total = #{total,jdbcType=DOUBLE},
+      delivered = #{delivered,jdbcType=DOUBLE},
+      owe = #{owe,jdbcType=DOUBLE},
+      indate = #{indate,jdbcType=DATE},
+      paydate = #{paydate,jdbcType=DATE},
+      transactor = #{transactor,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </update>
+</mapper>

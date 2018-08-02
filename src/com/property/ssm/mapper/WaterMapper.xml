@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.WaterMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Water" >
+    <id column="water_id" property="waterId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="startdate" property="startdate" jdbcType="DATE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    water_id, position, startdate, price
+  </sql>
+  
+  <!-- 查询所有记录条数 -->
+   <select id="findCount" resultType="java.lang.Integer">
+  	select 
+	count(*)
+	from water
+  </select>
+  
+  <!-- 按分页查找所有 -->
+  <select id="findByPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from water
+    limit #{index},#{pagesize}
+  </select>
+  
+  <!-- 查询已添加水表的物业地址 -->
+  <select id="findPosition" resultType="java.lang.String">
+  	select position from water
+  </select>
+  
+   <!-- 按条件分页查找所有 -->
+  <select id="findByPaginationAndCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from water
+	where ${name}=#{value}
+    limit #{index},#{pagesize}
+  </select>
+  
+  <!-- 按物业地址查询 -->
+   <select id="findByPosition" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from water where position=#{value}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from water
+    where water_id = #{waterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from water
+    where water_id = #{waterId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Water" >
+    insert into water (water_id, position, 
+      startdate, price)
+    values (#{waterId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, 
+      #{startdate,jdbcType=DATE}, #{price,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Water" >
+    insert into water
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="waterId != null" >
+        water_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="waterId != null" >
+        #{waterId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="editprice" parameterType="java.lang.Double">
+  	update water set price=#{value} where price!=#{value}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Water" >
+    update water
+    <set >
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where water_id = #{waterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Water" >
+    update water
+    set position = #{position,jdbcType=VARCHAR},
+      startdate = #{startdate,jdbcType=DATE},
+      price = #{price,jdbcType=DOUBLE}
+    where water_id = #{waterId,jdbcType=INTEGER}
+  </update>
+</mapper>

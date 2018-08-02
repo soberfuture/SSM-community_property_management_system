@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.EquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Equipment" >
+    <id column="equipment_id" property="equipmentId" jdbcType="INTEGER" />
+    <result column="equipment_name" property="equipmentName" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="costdate" property="costdate" jdbcType="DATE" />
+    <result column="cost" property="cost" jdbcType="DOUBLE" />
+    <result column="startdate" property="startdate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    equipment_id, equipment_name, brand, version, department, costdate, cost, startdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from equipment
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from equipment
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Equipment" >
+    insert into equipment (equipment_id, equipment_name, brand, 
+      version, department, costdate, 
+      cost, startdate)
+    values (#{equipmentId,jdbcType=INTEGER}, #{equipmentName,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{costdate,jdbcType=DATE}, 
+      #{cost,jdbcType=DOUBLE}, #{startdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Equipment" >
+    insert into equipment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="equipmentId != null" >
+        equipment_id,
+      </if>
+      <if test="equipmentName != null" >
+        equipment_name,
+      </if>
+      <if test="brand != null" >
+        brand,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="costdate != null" >
+        costdate,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentName != null" >
+        #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="costdate != null" >
+        #{costdate,jdbcType=DATE},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DOUBLE},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Equipment" >
+    update equipment
+    <set >
+      <if test="equipmentName != null" >
+        equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="costdate != null" >
+        costdate = #{costdate,jdbcType=DATE},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DOUBLE},
+      </if>
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=DATE},
+      </if>
+    </set>
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Equipment" >
+    update equipment
+    set equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      costdate = #{costdate,jdbcType=DATE},
+      cost = #{cost,jdbcType=DOUBLE},
+      startdate = #{startdate,jdbcType=DATE}
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </update>
+</mapper>

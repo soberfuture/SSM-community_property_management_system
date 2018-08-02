@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="retime" property="retime" jdbcType="DATE" />
+    <result column="lasttime" property="lasttime" jdbcType="TIMESTAMP" />
+    <result column="repswTime" property="repswTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="com.property.ssm.po.User" id="OwnerLoginMap" extends="BaseResultMap">
+  	<association property="house" javaType="com.property.ssm.po.House">
+  		<id property="houseId" column="house_id"/>
+  		<result property="position" column="h_position"/>
+  		<result property="area" column="area"/>
+  		<result property="usedarea" column="usedarea"/>
+  		<result property="houseType" column="house_type"/>
+  		<result property="workoff" column="workoff"/>
+  		<result property="ownerId" column="h_owner_id"/>
+  		<result property="remark" column="remark"/>
+  		<association property="owner" javaType="com.property.ssm.po.Owner">
+  			<id property="ownerId" column="owner_id"/>
+  			<result property="ownerName" column="owner_name"/>
+  			<result property="sex" column="sex"/>
+  			<result property="hometown" column="hometown"/>
+  			<result property="job" column="job"/>
+  			<result property="email" column="email"/>
+  			<result property="idcard" column="idcard"/>
+  			<result property="tel" column="tel"/>
+  			<result property="indate" column="indate"/>
+  			<result property="outdate" column="outdate"/>
+  			<result property="account" column="account"/>
+  		</association>
+  	</association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    user_id, username, password, type, retime, lasttime ,repswTime
+  </sql>
+  <!-- 查询所有记录条数 -->
+   <select id="findCount" resultType="java.lang.Integer">
+  	select 
+	count(*)
+	from user
+  </select>
+  
+  <!-- 分页查询所有用户 -->
+  <select id="findByPagination" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+	*
+	from user
+	limit #{index},#{pagesize}
+  </select>
+  
+  <select id="check" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from user
+  	where username = #{username} and password = #{password}
+  </select>
+  
+  <!-- 业主登录之后获得该业主的完整信息 -->
+  <select id="getDetailedUser" resultMap="OwnerLoginMap" parameterType="java.lang.String">
+  	select
+	user_id,username,password,type,retime,lasttime,repswTime,house_id,h.position h_position,h.area,usedarea,
+	house_type,workoff,h.owner_id h_owner_id,h.remark,o.owner_id,owner_name,sex,
+	hometown,job,email,idcard,tel,indate,outdate,account
+	from user u,house h,owner o
+	where 
+	u.username=h.position
+	and h.owner_id=o.owner_id
+	and u.username=#{value}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.User" >
+    insert into user (user_id, username, password, 
+      type, retime, lasttime,repswTime)
+    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{retime,jdbcType=DATE}, #{lasttime,jdbcType=TIMESTAMP},#{repswTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="retime != null" >
+        retime,
+      </if>
+      <if test="lasttime != null" >
+        lasttime,
+      </if>
+      <if test="repswTime != null" >
+        repswTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="retime != null" >
+        #{retime,jdbcType=DATE},
+      </if>
+      <if test="lasttime != null" >
+        #{lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repswTime != null" >
+        #{repswTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="retime != null" >
+        retime = #{retime,jdbcType=DATE},
+      </if>
+      <if test="lasttime != null" >
+        lasttime = #{lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repswTime != null" >
+        repswTime = #{repswTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      retime = #{retime,jdbcType=DATE},
+      lasttime = #{lasttime,jdbcType=TIMESTAMP},
+      repswTime = #{repswTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

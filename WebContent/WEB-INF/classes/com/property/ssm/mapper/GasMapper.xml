@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.GasMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Gas" >
+    <id column="gas_id" property="gasId" jdbcType="INTEGER" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="startdate" property="startdate" jdbcType="DATE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gas_id, owner_id, position, startdate, price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gas
+    where gas_id = #{gasId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gas
+    where gas_id = #{gasId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Gas" >
+    insert into gas (gas_id, owner_id, position, 
+      startdate, price)
+    values (#{gasId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, 
+      #{startdate,jdbcType=DATE}, #{price,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Gas" >
+    insert into gas
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gasId != null" >
+        gas_id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gasId != null" >
+        #{gasId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Gas" >
+    update gas
+    <set >
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where gas_id = #{gasId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Gas" >
+    update gas
+    set owner_id = #{ownerId,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      startdate = #{startdate,jdbcType=DATE},
+      price = #{price,jdbcType=DOUBLE}
+    where gas_id = #{gasId,jdbcType=INTEGER}
+  </update>
+</mapper>

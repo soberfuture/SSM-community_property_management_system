@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.PropertyFeeMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.PropertyFee" >
+    <id column="fee_id" property="feeId" jdbcType="INTEGER" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="inputdate" property="inputdate" jdbcType="DATE" />
+    <result column="project" property="project" jdbcType="VARCHAR" />
+    <result column="way" property="way" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="delivered" property="delivered" jdbcType="DOUBLE" />
+    <result column="owe" property="owe" jdbcType="DOUBLE" />
+    <result column="deliverdate" property="deliverdate" jdbcType="DATE" />
+    <result column="transactor" property="transactor" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fee_id, owner_id, position, inputdate, project, way, total, delivered, owe, deliverdate, 
+    transactor, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from property_fee
+    where fee_id = #{feeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from property_fee
+    where fee_id = #{feeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.PropertyFee" >
+    insert into property_fee (fee_id, owner_id, position, 
+      inputdate, project, way, 
+      total, delivered, owe, 
+      deliverdate, transactor, remark
+      )
+    values (#{feeId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, 
+      #{inputdate,jdbcType=DATE}, #{project,jdbcType=VARCHAR}, #{way,jdbcType=VARCHAR}, 
+      #{total,jdbcType=DOUBLE}, #{delivered,jdbcType=DOUBLE}, #{owe,jdbcType=DOUBLE}, 
+      #{deliverdate,jdbcType=DATE}, #{transactor,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.PropertyFee" >
+    insert into property_fee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="feeId != null" >
+        fee_id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="inputdate != null" >
+        inputdate,
+      </if>
+      <if test="project != null" >
+        project,
+      </if>
+      <if test="way != null" >
+        way,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="delivered != null" >
+        delivered,
+      </if>
+      <if test="owe != null" >
+        owe,
+      </if>
+      <if test="deliverdate != null" >
+        deliverdate,
+      </if>
+      <if test="transactor != null" >
+        transactor,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="feeId != null" >
+        #{feeId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="inputdate != null" >
+        #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="project != null" >
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null" >
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="delivered != null" >
+        #{delivered,jdbcType=DOUBLE},
+      </if>
+      <if test="owe != null" >
+        #{owe,jdbcType=DOUBLE},
+      </if>
+      <if test="deliverdate != null" >
+        #{deliverdate,jdbcType=DATE},
+      </if>
+      <if test="transactor != null" >
+        #{transactor,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.PropertyFee" >
+    update property_fee
+    <set >
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="inputdate != null" >
+        inputdate = #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="project != null" >
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null" >
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="delivered != null" >
+        delivered = #{delivered,jdbcType=DOUBLE},
+      </if>
+      <if test="owe != null" >
+        owe = #{owe,jdbcType=DOUBLE},
+      </if>
+      <if test="deliverdate != null" >
+        deliverdate = #{deliverdate,jdbcType=DATE},
+      </if>
+      <if test="transactor != null" >
+        transactor = #{transactor,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fee_id = #{feeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.PropertyFee" >
+    update property_fee
+    set owner_id = #{ownerId,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      inputdate = #{inputdate,jdbcType=DATE},
+      project = #{project,jdbcType=VARCHAR},
+      way = #{way,jdbcType=VARCHAR},
+      total = #{total,jdbcType=DOUBLE},
+      delivered = #{delivered,jdbcType=DOUBLE},
+      owe = #{owe,jdbcType=DOUBLE},
+      deliverdate = #{deliverdate,jdbcType=DATE},
+      transactor = #{transactor,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where fee_id = #{feeId,jdbcType=INTEGER}
+  </update>
+</mapper>

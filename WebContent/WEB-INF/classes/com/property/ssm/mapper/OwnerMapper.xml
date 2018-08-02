@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.OwnerMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Owner" >
+    <id column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="owner_name" property="ownerName" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="hometown" property="hometown" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="indate" property="indate" jdbcType="DATE" />
+    <result column="outdate" property="outdate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    owner_id, owner_name, username, sex, position, hometown, job, email, idcard, tel, 
+    indate, outdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from owner
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from owner
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Owner" >
+    insert into owner (owner_id, owner_name, username, 
+      sex, position, hometown, 
+      job, email, idcard, 
+      tel, indate, outdate)
+    values (#{ownerId,jdbcType=INTEGER}, #{ownerName,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{position,jdbcType=INTEGER}, #{hometown,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{indate,jdbcType=DATE}, #{outdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Owner" >
+    insert into owner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="ownerName != null" >
+        owner_name,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="hometown != null" >
+        hometown,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="indate != null" >
+        indate,
+      </if>
+      <if test="outdate != null" >
+        outdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerName != null" >
+        #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="hometown != null" >
+        #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="indate != null" >
+        #{indate,jdbcType=DATE},
+      </if>
+      <if test="outdate != null" >
+        #{outdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Owner" >
+    update owner
+    <set >
+      <if test="ownerName != null" >
+        owner_name = #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="hometown != null" >
+        hometown = #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="indate != null" >
+        indate = #{indate,jdbcType=DATE},
+      </if>
+      <if test="outdate != null" >
+        outdate = #{outdate,jdbcType=DATE},
+      </if>
+    </set>
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Owner" >
+    update owner
+    set owner_name = #{ownerName,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      position = #{position,jdbcType=INTEGER},
+      hometown = #{hometown,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      indate = #{indate,jdbcType=DATE},
+      outdate = #{outdate,jdbcType=DATE}
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </update>
+</mapper>

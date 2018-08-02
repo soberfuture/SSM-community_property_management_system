@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.ComplaintMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Complaint" >
+    <id column="complaint_id" property="complaintId" jdbcType="INTEGER" />
+    <result column="complaint_date" property="complaintDate" jdbcType="DATE" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="complaint_status" property="complaintStatus" jdbcType="VARCHAR" />
+    <result column="handledate" property="handledate" jdbcType="DATE" />
+    <result column="handler" property="handler" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    complaint_id, complaint_date, owner_id, position, tel, complaint_status, handledate, 
+    handler, content, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from complaint
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from complaint
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Complaint" >
+    insert into complaint (complaint_id, complaint_date, owner_id, 
+      position, tel, complaint_status, 
+      handledate, handler, content, 
+      remark)
+    values (#{complaintId,jdbcType=INTEGER}, #{complaintDate,jdbcType=DATE}, #{ownerId,jdbcType=INTEGER}, 
+      #{position,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR}, #{complaintStatus,jdbcType=VARCHAR}, 
+      #{handledate,jdbcType=DATE}, #{handler,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Complaint" >
+    insert into complaint
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="complaintId != null" >
+        complaint_id,
+      </if>
+      <if test="complaintDate != null" >
+        complaint_date,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="complaintStatus != null" >
+        complaint_status,
+      </if>
+      <if test="handledate != null" >
+        handledate,
+      </if>
+      <if test="handler != null" >
+        handler,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="complaintId != null" >
+        #{complaintId,jdbcType=INTEGER},
+      </if>
+      <if test="complaintDate != null" >
+        #{complaintDate,jdbcType=DATE},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintStatus != null" >
+        #{complaintStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="handledate != null" >
+        #{handledate,jdbcType=DATE},
+      </if>
+      <if test="handler != null" >
+        #{handler,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Complaint" >
+    update complaint
+    <set >
+      <if test="complaintDate != null" >
+        complaint_date = #{complaintDate,jdbcType=DATE},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintStatus != null" >
+        complaint_status = #{complaintStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="handledate != null" >
+        handledate = #{handledate,jdbcType=DATE},
+      </if>
+      <if test="handler != null" >
+        handler = #{handler,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Complaint" >
+    update complaint
+    set complaint_date = #{complaintDate,jdbcType=DATE},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      tel = #{tel,jdbcType=VARCHAR},
+      complaint_status = #{complaintStatus,jdbcType=VARCHAR},
+      handledate = #{handledate,jdbcType=DATE},
+      handler = #{handler,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+  </update>
+</mapper>

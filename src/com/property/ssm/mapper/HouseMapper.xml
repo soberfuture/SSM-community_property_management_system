@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.HouseMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.House" >
+    <id column="house_id" property="houseId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="DOUBLE" />
+    <result column="usedarea" property="usedarea" jdbcType="DOUBLE" />
+    <result column="house_type" property="houseType" jdbcType="VARCHAR" />
+    <result column="workoff" property="workoff" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    house_id, position, area, usedarea, house_type, workoff, owner_id, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from house
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findByPositionAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+	select * from house 
+	where position=#{position} 
+	<if test="status!=null">
+		and workoff=#{status}
+	</if>
+  </select>
+  
+  <!-- 查询所有记录条数 -->
+   <select id="findCount" resultType="java.lang.Integer">
+  	select 
+	count(*)
+	from house
+  </select>
+  
+  <!-- 按分页查找所有 -->
+  <select id="findByPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from house
+    limit #{index},#{pagesize}
+  </select>
+  
+  <!-- 获得所有房间信息 -->
+  <select id="findAllHouse" resultMap="BaseResultMap">
+  	select * from house
+  </select>
+  
+  <!-- 按业主id查询房间信息 -->
+  <select id="findByOwnerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select * from house where owner_id=#{value}
+  </select>
+  
+  <!-- 按房间状态获得所有房间信息 -->
+  <select id="findHouseByStatus" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from house where workoff=#{value}
+  </select>
+  
+  <!-- 按房间状态获得所有房间物业地址 -->
+  <select id="findPositionByStatus" resultType="java.lang.String" parameterType="java.lang.String">
+  	select position from house where workoff=#{value}
+  </select>
+  
+  <!-- 根据物业地址查找房间信息 -->
+  <select id="findByPosition" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from house where position=#{value}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from house
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.property.ssm.po.House" >
+    insert into house (house_id, position, area, 
+      usedarea, house_type, workoff, 
+      owner_id, remark)
+    values (#{houseId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{area,jdbcType=DOUBLE}, 
+      #{usedarea,jdbcType=DOUBLE}, #{houseType,jdbcType=VARCHAR}, #{workoff,jdbcType=VARCHAR}, 
+      #{ownerId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.House" >
+    insert into house
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="houseId != null" >
+        house_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="usedarea != null" >
+        usedarea,
+      </if>
+      <if test="houseType != null" >
+        house_type,
+      </if>
+      <if test="workoff != null" >
+        workoff,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="houseId != null" >
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=DOUBLE},
+      </if>
+      <if test="usedarea != null" >
+        #{usedarea,jdbcType=DOUBLE},
+      </if>
+      <if test="houseType != null" >
+        #{houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="workoff != null" >
+        #{workoff,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.House" >
+    update house
+    <set >
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=DOUBLE},
+      </if>
+      <if test="usedarea != null" >
+        usedarea = #{usedarea,jdbcType=DOUBLE},
+      </if>
+      <if test="houseType != null" >
+        house_type = #{houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="workoff != null" >
+        workoff = #{workoff,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </update>
+	
+	<update id="updateOwnerId" parameterType="com.property.ssm.po.House">
+		update house set owner_id = #{ownerId},workoff=#{workoff} where house_id = #{houseId}
+	</update>
+
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.House" >
+    update house
+    set position = #{position,jdbcType=VARCHAR},
+      area = #{area,jdbcType=DOUBLE},
+      usedarea = #{usedarea,jdbcType=DOUBLE},
+      house_type = #{houseType,jdbcType=VARCHAR},
+      workoff = #{workoff,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </update>
+</mapper>

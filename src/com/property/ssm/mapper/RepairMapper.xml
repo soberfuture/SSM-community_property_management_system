@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.RepairMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Repair" >
+    <id column="repair_id" property="repairId" jdbcType="INTEGER" />
+    <result column="repair_date" property="repairDate" jdbcType="DATE" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="handledate" property="handledate" jdbcType="DATE" />
+    <result column="handler" property="handler" jdbcType="VARCHAR" />
+    <result column="servicecost" property="servicecost" jdbcType="DOUBLE" />
+    <result column="mattercost" property="mattercost" jdbcType="DOUBLE" />
+    <result column="situation" property="situation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    repair_id, repair_date, content, owner_id, position, tel, handledate, handler, servicecost, 
+    mattercost, situation
+  </sql>
+  
+  <!-- 查询所有记录条数 -->
+   <select id="findCount" resultType="java.lang.Integer">
+  	select 
+	count(*)
+	from repair
+  </select>
+  
+  <!-- 按分页查找所有 -->
+  <select id="findByPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from repair
+    order by repair_id desc
+    limit #{index},#{pagesize}
+  </select>
+  
+  <!-- 按条件分页查询数量-->
+  <select id="findCountByConditionAndPagination" resultType="java.lang.Integer" parameterType="com.property.ssm.po.FeeRecord">
+  	select count(*) from repair
+  	<where>
+  		<if test="position!=null and position!=''">
+  			position=#{position}
+  		</if>
+  		<if test="way!=null and way!=''">
+  			and situation=#{way}
+  		</if>
+  	</where>
+  </select>
+  
+ <!-- 按条件分页查询-->
+  <select id="findByConditionAndPagination" resultMap="BaseResultMap" parameterType="com.property.ssm.po.FeeRecord">
+  	select * from repair
+  	<where>
+  		<if test="position!=null and position!=''">
+  			position=#{position}
+  		</if>
+  		<if test="way!=null and way!=''">
+  			and situation=#{way}
+  		</if>
+  	</where>
+  	 order by repair_id desc
+     limit #{index},#{pagesize}
+  </select>
+  
+  <!-- 按物业地址查询报修列表 -->
+  <select id="findByPosition" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select
+  	*
+  	from repair
+  	where position=#{value}
+  </select>
+  
+  <!-- 按报修地址和处理状态查询 -->
+  <select id="findByPositionAndSituation" resultMap="BaseResultMap" parameterType="com.property.ssm.po.FeeRecord">
+  	select
+  	*
+  	from repair
+  	<where>
+  		<if test="position != null">
+  			position = #{position}
+  		</if>
+  		<if test=" way != null">
+  			and situation = #{way}
+  		</if>
+  		<if test="startdate!=null and stopdate!=null">
+  			and DATE(repair_date) BETWEEN #{startdate} and #{stopdate}
+  		</if>
+  	</where>
+  </select>
+  
+  <!-- 按状态和年月查询 -->
+  	<select id="findByStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		SELECT * FROM repair WHERE situation=#{status} AND YEAR(repair_date)=#{year} AND MONTH(repair_date)=#{month}
+  	</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repair
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from repair
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Repair" >
+    insert into repair (repair_id, repair_date, content, 
+      owner_id, position, tel, 
+      handledate, handler, servicecost, 
+      mattercost, situation)
+    values (#{repairId,jdbcType=INTEGER}, #{repairDate,jdbcType=DATE}, #{content,jdbcType=VARCHAR}, 
+      #{ownerId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{handledate,jdbcType=DATE}, #{handler,jdbcType=VARCHAR}, #{servicecost,jdbcType=DOUBLE}, 
+      #{mattercost,jdbcType=DOUBLE}, #{situation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Repair" >
+    insert into repair
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="repairId != null" >
+        repair_id,
+      </if>
+      <if test="repairDate != null" >
+        repair_date,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="handledate != null" >
+        handledate,
+      </if>
+      <if test="handler != null" >
+        handler,
+      </if>
+      <if test="servicecost != null" >
+        servicecost,
+      </if>
+      <if test="mattercost != null" >
+        mattercost,
+      </if>
+      <if test="situation != null" >
+        situation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="repairId != null" >
+        #{repairId,jdbcType=INTEGER},
+      </if>
+      <if test="repairDate != null" >
+        #{repairDate,jdbcType=DATE},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="handledate != null" >
+        #{handledate,jdbcType=DATE},
+      </if>
+      <if test="handler != null" >
+        #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="servicecost != null" >
+        #{servicecost,jdbcType=DOUBLE},
+      </if>
+      <if test="mattercost != null" >
+        #{mattercost,jdbcType=DOUBLE},
+      </if>
+      <if test="situation != null" >
+        #{situation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Repair" >
+    update repair
+    <set >
+      <if test="repairDate != null" >
+        repair_date = #{repairDate,jdbcType=DATE},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="handledate != null" >
+        handledate = #{handledate,jdbcType=DATE},
+      </if>
+      <if test="handler != null" >
+        handler = #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="servicecost != null" >
+        servicecost = #{servicecost,jdbcType=DOUBLE},
+      </if>
+      <if test="mattercost != null" >
+        mattercost = #{mattercost,jdbcType=DOUBLE},
+      </if>
+      <if test="situation != null" >
+        situation = #{situation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Repair" >
+    update repair
+    set repair_date = #{repairDate,jdbcType=DATE},
+      content = #{content,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      position = #{position,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      handledate = #{handledate,jdbcType=DATE},
+      handler = #{handler,jdbcType=VARCHAR},
+      servicecost = #{servicecost,jdbcType=DOUBLE},
+      mattercost = #{mattercost,jdbcType=DOUBLE},
+      situation = #{situation,jdbcType=VARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </update>
+</mapper>

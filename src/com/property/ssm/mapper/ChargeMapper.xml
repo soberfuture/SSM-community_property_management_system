@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.ChargeMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Charge" >
+    <id column="charge_id" property="chargeId" jdbcType="INTEGER" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="project" property="project" jdbcType="VARCHAR" />
+    <result column="way" property="way" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="used" property="used" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="inperson" property="inperson" jdbcType="INTEGER" />
+    <result column="indate" property="indate" jdbcType="DATE" />
+    <result column="paydate" property="paydate" jdbcType="DATE" />
+    <result column="transactor" property="transactor" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.property.ssm.po.FeeRecord" id="FeeRecord">
+  	<result column="position" property="position" jdbcType="VARCHAR" />
+  	<result column="project" property="project" jdbcType="VARCHAR" />
+  	<result column="way" property="way" jdbcType="VARCHAR" />
+  	<result column="total" property="money" jdbcType="DOUBLE" />
+  	<result column="paydate" property="date" jdbcType="DATE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    charge_id, owner_id, position, project, way, unit, used, price, total, 
+    inperson, indate, paydate, transactor, remark
+  </sql>
+  
+  <!-- 查询所有记录条数 -->
+   <select id="findCount" resultType="java.lang.Integer">
+  	select 
+	count(*)
+	from charge
+  </select>
+  
+  <!-- 按分页查找所有 -->
+  <select id="findByPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from charge
+    order by charge_id desc
+    limit #{index},#{pagesize}
+  </select>
+  <!-- 按条件分页查询某一个用户账单 -->
+	  <!-- 集合结果 -->
+	  <select id="findListByUserAndCondition" resultMap="FeeRecord" parameterType="com.property.ssm.po.FeeRecord">
+	  	select 
+		*
+		from charge
+		<where>
+			way!='未交'
+			<if test="position!=null and position!=''">
+				and	position=#{position}
+			</if>
+			<if test="startdate!=null and stopdate!=null">
+				and (date(paydate) BETWEEN #{startdate} AND #{stopdate})
+			</if>
+		</where>
+	  </select>
+  
+  <!-- 按条件查询所有记录条数 -->
+   <select id="findCountByCondition" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select 
+	count(*)
+	from charge
+	where ${name}=#{value}
+  </select>
+  
+  <!-- 按条件分页查找所有 -->
+  <select id="findByPaginationAndCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from charge
+	where ${name}=#{value}
+    limit #{index},#{pagesize}
+  </select>
+ 
+  <!-- 按物业地址查询未交费用集合 -->
+  <select id="findByPositionAndFeeState" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select
+  	<include refid="Base_Column_List" />
+    from charge
+    where position=#{value} and way='未交'
+  </select>
+  
+  <!-- 查询缴费历史 -->
+  <select id="findFeeRecord" resultMap="FeeRecord" parameterType="java.util.Map">
+  	SELECT
+  	*
+  	FROM charge 
+  	WHERE position=#{position}
+  	AND way!='未交' 
+  	<if test="startdate != null and stopdate != null">
+  		AND (date(paydate) BETWEEN #{startdate} AND #{stopdate})
+  	</if>
+  </select>
+  
+  <!-- 按年份和月份查找 -->
+  <select id="findByYearAndMonth" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select * from charge where YEAR(indate)=#{year} AND MONTH(indate)=#{month}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from charge
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.property.ssm.po.Charge" >
+    insert into charge (charge_id, owner_id, position, 
+      project, way, unit, 
+      used, price, total, inperson,indate, paydate, transactor, 
+      remark)
+    values (#{chargeId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, 
+      #{project,jdbcType=VARCHAR}, #{way,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{used,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{total,jdbcType=DOUBLE}, 
+      #{inperson,jdbcType=INTEGER}, #{indate,jdbcType=DATE}, #{paydate,jdbcType=DATE}, #{transactor,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Charge" >
+    insert into charge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chargeId != null" >
+        charge_id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="project != null" >
+        project,
+      </if>
+      <if test="way != null" >
+        way,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="used != null" >
+        used,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="inperson != null" >
+        inperson,
+      </if>
+      <if test="indate != null" >
+        indate,
+      </if>
+      <if test="paydate != null" >
+        paydate,
+      </if>
+      <if test="transactor != null" >
+        transactor,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chargeId != null" >
+        #{chargeId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null" >
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null" >
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="used != null" >
+        #{used,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="inperson != null" >
+        #{inperson,jdbcType=INTEGER},
+      </if>
+      <if test="indate != null" >
+        #{indate,jdbcType=DATE},
+      </if>
+      <if test="paydate != null" >
+        #{paydate,jdbcType=DATE},
+      </if>
+      <if test="transactor != null" >
+        #{transactor,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Charge" >
+    update charge
+    <set >
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null" >
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null" >
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="used != null" >
+        used = #{used,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="inperson != null" >
+        #{inperson,jdbcType=INTEGER},
+      </if>
+      <if test="indate != null" >
+        indate = #{indate,jdbcType=DATE},
+      </if>
+      <if test="paydate != null" >
+        paydate = #{paydate,jdbcType=DATE},
+      </if>
+      <if test="transactor != null" >
+        transactor = #{transactor,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Charge" >
+    update charge
+    set owner_id = #{ownerId,jdbcType=INTEGER},
+      position = #{position,jdbcType=VARCHAR},
+      project = #{project,jdbcType=VARCHAR},
+      way = #{way,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      used = #{used,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
+      total = #{total,jdbcType=DOUBLE},
+      inperson = #{inperson,jdbcType=INTEGER},
+      indate = #{indate,jdbcType=DATE},
+      paydate = #{paydate,jdbcType=DATE},
+      transactor = #{transactor,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where charge_id = #{chargeId,jdbcType=INTEGER}
+  </update>
+</mapper>

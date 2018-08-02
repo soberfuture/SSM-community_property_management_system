@@ -1,0 +1,131 @@
+@charset "UTF-8";
+.owner_top{
+	width: 100%;
+	height: 100px;
+	background-color: #323232;
+}
+@font-face {
+   font-family: 'Edwardian Script ITC';
+   src: url("../fonts/ITCEDSCR.TTF");
+}
+.logo{
+	margin-left:100px;
+	color:#FF7000;
+	font-family: 'Edwardian Script ITC';
+	font-size:75px;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	float: left;
+	padding:0px;
+}
+.navigation{
+	float:left;
+	margin-left:100px;
+	list-style: none;
+}
+.navigation li{
+	text-align:center;
+	width:100px;
+	height:100px;
+	float: left;
+	font-size: 30px;
+	color: #fff;
+	line-height: 100px;
+	transition:all .3s;
+}
+.navigation li:hover {
+	background-color: #EE5010;
+	cursor: pointer;
+}
+.navigation li a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+.navigation li a,
+.navigation li a:hover,
+.navigation li a:active{
+	text-decoration: none;
+    color: #fff;
+}
+.selected{
+	background-color: #EE5010;
+}
+/* 复写 bootstrap dropdown */
+.dropdown {display:inline-block;
+position:absolute;
+top:40px;
+right:300px;
+}
+
+.dropdown-toggle:focus,
+.dropdown-toggle:hover {
+	color: #000;
+}
+
+.user-dropdown-menu {
+	top: 120%;
+	right: 0;
+	left: auto;
+	width: 120px;
+	min-width: 120px;
+	z-index: 999;
+}
+
+.user-dropdown-menu .dropdown-text {
+	font-weight: 600;
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	line-height: 1.42857143;
+	color: #333;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.user-dropdown-menu>li>a:hover,
+.user-dropdown-menu>li>a:focus {
+	color: #fff;
+	background-color: #0366d6;
+}
+
+.user-dropdown-menu>.active>a,
+.user-dropdown-menu>.active>a:hover,
+.user-dropdown-menu>.active>a:focus {
+	background-color: #0366d6;
+}
+
+.user-dropdown-menu>.arrow,
+.user-dropdown-menu>.arrow:after {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.user-dropdown-menu>.arrow {
+	border-width: 11px;
+	top: -11px;
+	left: 80%;
+	margin-left: -11px;
+	border-top-width: 0;
+	border-bottom-color: #999;
+	border-bottom-color: rgba(0, 0, 0, .25);
+}
+
+.user-dropdown-menu>.arrow:after {
+	border-width: 10px;
+	top: 1px;
+	margin-left: -10px;
+	content: " ";
+	border-top-width: 0;
+	border-bottom-color: #fff;
+}
+
+.user-dropdown-menu .glyphicon {
+	margin-right: 10px;
+}

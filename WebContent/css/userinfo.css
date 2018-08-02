@@ -1,0 +1,105 @@
+@charset "UTF-8";
+.owner_boddy{
+	margin:0 auto;
+	width: 60%;
+	min-height: 1000px;
+}
+.center_left{
+	float:left;
+	width: 15%;
+	height:95%;
+	background-color: #4F5866;
+}
+.center_left ul{
+	width:100%;
+	list-style: none;
+}
+.center_left ul li{
+	color:#fff;
+	height:50px;
+	line-height:50px;
+	text-align: center;		
+}
+.center_right{
+	padding:20px;
+	float:left;
+	width: 85%;
+	height:95%;
+	min-height: 1000px;
+	background-color: #fff;
+}
+.touxiang{
+	margin:0 auto;
+	width: 65%;
+}
+.name{
+	color:#fff;
+	height:50px;
+	line-height:50px;
+	text-align: center;
+}
+.person_info{
+	width: 100%;
+}
+.person_info_title{
+	font-size: 24px;
+    font-weight: 700;
+    color: #666;
+    border-bottom: 1px solid #e8e8e8;
+}
+.person_content{
+	width: 600px;
+	height: 40px;
+	line-height: 40px;
+}
+
+.form_content{
+	padding: 30px;
+}
+.person_btn{
+	padding: 30px;
+}
+.person_btn a{
+	width: 180px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    display: block;
+    text-align: center;
+    background-color: #1dd388;
+    border-radius: 3px;
+}
+.person_btn a:hover,.person_btn a:link,.person_btn a:visited,.person_btn a:active{
+	background-color:#17A66B;
+	color:#fff;
+	text-decoration: none;
+}
+.clear-fixed{
+	clear:both;
+}
+.userinfo_bar a{
+	width: 100%;
+	height: 100%;
+	display:block;
+	color:#fff;
+}
+.userinfo_bar a:hover,.userinfo_bar a:link,.userinfo_bar a:visited,.userinfo_bar a:active{
+	color:#fff;
+	text-decoration: none;
+}
+.kong{
+	margin:150px 150px;
+	width: 400px;
+	height: 300px;
+}
+.disabled{
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+.carport_info{
+	border-bottom: 1px dashed #ccc;
+}

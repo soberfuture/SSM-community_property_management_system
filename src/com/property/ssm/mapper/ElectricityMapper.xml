@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.ElectricityMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Electricity" >
+    <id column="electricity_id" property="electricityId" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="startdate" property="startdate" jdbcType="DATE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    electricity_id, position, startdate, price
+  </sql>
+  
+  <!-- 查询所有记录条数 -->
+   <select id="findCount" resultType="java.lang.Integer">
+  	select 
+	count(*)
+	from electricity
+  </select>
+  
+  <!-- 查询已添加电表的物业地址 -->
+  <select id="findPosition" resultType="java.lang.String">
+  	select position from electricity
+  </select>
+  
+  <!-- 按物业地址查询 -->
+   <select id="findByPosition" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from electricity where position=#{value}
+  </select>
+  
+  <!-- 按分页查找所有 -->
+  <select id="findByPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from electricity
+    limit #{index},#{pagesize}
+  </select>
+  
+  <!-- 按条件分页查找所有 -->
+  <select id="findByPaginationAndCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+  	<include refid="Base_Column_List" />
+    from electricity
+	where ${name}=#{value}
+    limit #{index},#{pagesize}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from electricity
+    where electricity_id = #{electricityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from electricity
+    where electricity_id = #{electricityId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Electricity" >
+    insert into electricity (electricity_id, position, 
+      startdate, price)
+    values (#{electricityId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, 
+      #{startdate,jdbcType=DATE}, #{price,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Electricity" >
+    insert into electricity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="electricityId != null" >
+        electricity_id,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="electricityId != null" >
+        #{electricityId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="editprice" parameterType="java.lang.Double">
+  	update electricity set price=#{value} where price!=#{value}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Electricity" >
+    update electricity
+    <set >
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startdate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where electricity_id = #{electricityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Electricity" >
+    update electricity
+    set position = #{position,jdbcType=VARCHAR},
+      startdate = #{startdate,jdbcType=DATE},
+      price = #{price,jdbcType=DOUBLE}
+    where electricity_id = #{electricityId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.EvaluateMapper">
+	<resultMap type="com.property.ssm.po.Evaluate" id="BaseResultMap">
+		<id column="eId" property="eId"/>
+		<result column="star" property="star"/>
+		<result column="econtent" property="econtent"/>
+		<result column="eType" property="eType"/>
+		<result column="targetId" property="targetId"/>
+		<result column="eDate" property="eDate"/>
+	</resultMap>
+	<insert id="insert" parameterType="com.property.ssm.po.Evaluate">
+		INSERT INTO evaluate VALUES(#{eId},#{star},#{econtent},#{eType},#{targetId},#{eDate})
+	</insert>
+	<select id="findByETypeAndYearAndMonth" parameterType="java.util.Map" resultType="com.property.ssm.po.Evaluate">
+		select * from evaluate where eType=#{eType} AND YEAR(eDate)=#{year} AND MONTH(eDate)=#{month}
+	</select>
+</mapper>

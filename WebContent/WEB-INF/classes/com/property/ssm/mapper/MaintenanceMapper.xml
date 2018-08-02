@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.property.ssm.mapper.MaintenanceMapper" >
+  <resultMap id="BaseResultMap" type="com.property.ssm.po.Maintenance" >
+    <id column="maintenance_id" property="maintenanceId" jdbcType="INTEGER" />
+    <result column="equipment_id" property="equipmentId" jdbcType="INTEGER" />
+    <result column="equipment_name" property="equipmentName" jdbcType="VARCHAR" />
+    <result column="maintenance_date" property="maintenanceDate" jdbcType="DATE" />
+    <result column="finisheddate" property="finisheddate" jdbcType="DATE" />
+    <result column="maintenance_fee" property="maintenanceFee" jdbcType="DOUBLE" />
+    <result column="maintenance_man" property="maintenanceMan" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="maintenance_status" property="maintenanceStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintenance_id, equipment_id, equipment_name, maintenance_date, finisheddate, maintenance_fee, 
+    maintenance_man, content, maintenance_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintenance
+    where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from maintenance
+    where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.property.ssm.po.Maintenance" >
+    insert into maintenance (maintenance_id, equipment_id, equipment_name, 
+      maintenance_date, finisheddate, maintenance_fee, 
+      maintenance_man, content, maintenance_status
+      )
+    values (#{maintenanceId,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{equipmentName,jdbcType=VARCHAR}, 
+      #{maintenanceDate,jdbcType=DATE}, #{finisheddate,jdbcType=DATE}, #{maintenanceFee,jdbcType=DOUBLE}, 
+      #{maintenanceMan,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{maintenanceStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.property.ssm.po.Maintenance" >
+    insert into maintenance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="maintenanceId != null" >
+        maintenance_id,
+      </if>
+      <if test="equipmentId != null" >
+        equipment_id,
+      </if>
+      <if test="equipmentName != null" >
+        equipment_name,
+      </if>
+      <if test="maintenanceDate != null" >
+        maintenance_date,
+      </if>
+      <if test="finisheddate != null" >
+        finisheddate,
+      </if>
+      <if test="maintenanceFee != null" >
+        maintenance_fee,
+      </if>
+      <if test="maintenanceMan != null" >
+        maintenance_man,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="maintenanceStatus != null" >
+        maintenance_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="maintenanceId != null" >
+        #{maintenanceId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentName != null" >
+        #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceDate != null" >
+        #{maintenanceDate,jdbcType=DATE},
+      </if>
+      <if test="finisheddate != null" >
+        #{finisheddate,jdbcType=DATE},
+      </if>
+      <if test="maintenanceFee != null" >
+        #{maintenanceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="maintenanceMan != null" >
+        #{maintenanceMan,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceStatus != null" >
+        #{maintenanceStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.property.ssm.po.Maintenance" >
+    update maintenance
+    <set >
+      <if test="equipmentId != null" >
+        equipment_id = #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentName != null" >
+        equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceDate != null" >
+        maintenance_date = #{maintenanceDate,jdbcType=DATE},
+      </if>
+      <if test="finisheddate != null" >
+        finisheddate = #{finisheddate,jdbcType=DATE},
+      </if>
+      <if test="maintenanceFee != null" >
+        maintenance_fee = #{maintenanceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="maintenanceMan != null" >
+        maintenance_man = #{maintenanceMan,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceStatus != null" >
+        maintenance_status = #{maintenanceStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.property.ssm.po.Maintenance" >
+    update maintenance
+    set equipment_id = #{equipmentId,jdbcType=INTEGER},
+      equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      maintenance_date = #{maintenanceDate,jdbcType=DATE},
+      finisheddate = #{finisheddate,jdbcType=DATE},
+      maintenance_fee = #{maintenanceFee,jdbcType=DOUBLE},
+      maintenance_man = #{maintenanceMan,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      maintenance_status = #{maintenanceStatus,jdbcType=VARCHAR}
+    where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
+  </update>
+</mapper>
